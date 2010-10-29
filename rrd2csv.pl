@@ -1,8 +1,8 @@
 #!/usr/bin/perl
 use POSIX qw(strftime);
 use lib '/usr/opt/rrdtool/';
-#use lib '/opt/rrdtool-1.4.4/lib/perl/5.8.8/x86_64-linux-thread-multi/';
 use RRDs;
+my $csvname;
 
 %scale_symbols = qw( -18 a -15 f -12 p -9 n -6 u -3 m
   3 k 6 M 9 G 12 T 15 P 18 E );
@@ -229,6 +229,8 @@ if ( $max ) {
 
 #----------------------------------------
 
+foreach $name (@$names) { printf "%8s,", $name; }
+print "\n";
 for $t ( 0 .. $#{$data} ) {
   if ( $verbose ) {
     print scalar localtime($start), ' through ',
@@ -250,8 +252,8 @@ for $t ( 0 .. $#{$data} ) {
     } else {
       $val = $data->[$t][$i];
     }
-     printf ",%8.2f$units$label %s", $val;
-#    printf "  %8.2f$units$label %s", $val, $$names[$i];
+     printf ",%4.2f", $val;
+    #printf "  %8.2f$units$label %s", $val, $$names[$i];
   }
   print "\n";
 }
